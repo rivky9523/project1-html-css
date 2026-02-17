@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A modern task manager application to organize and track your daily tasks">
+    <title>Task Manager - Organize Your Tasks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <h1>Task Manager</h1>
+                <button id="darkModeToggle" class="btn-icon" title="Toggle dark mode" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+            </div>
+            <p class="subtitle">Stay organized and track your daily tasks</p>
+        </header>
+
+        <main class="main-content">
+            <section class="settings-section">
+                <details class="settings-details">
+                    <summary class="settings-summary">⚙️ Settings</summary>
+                    <div class="settings-content">
+                        <div class="setting-group">
+                            <label for="themeSelect">Color Theme:</label>
+                            <select id="themeSelect" class="theme-select">
+                                <option value="indigo">🔵 Indigo</option>
+                                <option value="purple">🟣 Purple</option>
+                                <option value="pink">🩷 Pink</option>
+                                <option value="green">🟢 Green</option>
+                                <option value="orange">🟠 Orange</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <section class="add-task-section">
+                <h2 class="section-title">Add a New Task</h2>
+                <form id="taskForm" class="task-form" novalidate>
+                    <div class="form-group">
+                        <label for="taskInput">Task Description</label>
+                        <input 
+                            type="text" 
+                            id="taskInput" 
+                            class="task-input" 
+                            placeholder="Enter a new task..." 
+                            required
+                            aria-required="true"
+                            aria-describedby="taskInputHelp"
+                        >
+                        <small id="taskInputHelp" class="help-text">Enter your task description and press Add or click the button</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="categorySelect">Category</label>
+                            <select id="categorySelect" class="category-select">
+                                <option value="work">📊 Work</option>
+                                <option value="personal">👤 Personal</option>
+                                <option value="shopping">🛒 Shopping</option>
+                                <option value="health">💪 Health</option>
+                                <option value="learning">📚 Learning</option>
+                                <option value="other">📌 Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prioritySelect">Priority</label>
+                            <select id="prioritySelect" class="priority-select">
+                                <option value="low">🟢 Low</option>
+                                <option value="medium" selected>🟡 Medium</option>
+                                <option value="high">🔴 High</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dueDate">Due Date</label>
+                            <input 
+                                type="date" 
+                                id="dueDate" 
+                                class="date-input"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskNotes">Notes (Optional)</label>
+                        <textarea 
+                            id="taskNotes" 
+                            class="task-notes" 
+                            placeholder="Add optional notes or details..."
+                            rows="2"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" aria-label="Add new task">
+                        <span class="btn-text">Add Task</span>
+                    </button>
+                </form>
+            </section>
+
+            <section class="search-section">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="🔍 Search tasks..."
+                    aria-label="Search tasks"
+                >
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                    <button class="filter-btn" data-filter="high">High Priority</button>
+                    <button class="filter-btn" data-filter="today">Due Today</button>
+                </div>
+            </section>
+
+            <section class="stats-section" aria-label="Task statistics">
+                <div class="stat-item">
+                    <span class="stat-label">Total Tasks:</span>
+                    <span class="stat-value" id="totalTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completed:</span>
+                    <span class="stat-value" id="completedTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Remaining:</span>
+                    <span class="stat-value" id="remainingTasks">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Completion Rate:</span>
+                    <span class="stat-value" id="completionRate">0%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Current Streak:</span>
+                    <span class="stat-value" id="currentStreak">0 🔥</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Time Tracked:</span>
+                    <span class="stat-value" id="totalTime">0h 0m</span>
+                </div>
+            </section>
+
+            <section class="task-list-section">
+                <div class="list-header">
+                    <h2 class="section-title">Your Tasks</h2>
+                    <div class="list-actions">
+                        <button 
+                            id="exportBtn" 
+                            class="btn btn-secondary" 
+                            aria-label="Export tasks"
+                            title="Download tasks as JSON"
+                        >
+                            💾 Export
+                        </button>
+                        <button 
+                            id="clearCompletedBtn" 
+                            class="btn btn-secondary" 
+                            aria-label="Clear all completed tasks"
+                            disabled
+                        >
+                            Clear Completed
+                        </button>
+                    </div>
+                </div>
+
+                <div id="emptyState" class="empty-state" role="status" aria-live="polite">
+                    <p>No tasks yet. Add one to get started!</p>
+                </div>
+
+                <ul id="taskList" class="task-list" role="list" aria-label="List of tasks">
+                </ul>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Task Manager. All rights reserved. | Built with ❤️ and 🎨 | © RIVKY PERETZ</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
